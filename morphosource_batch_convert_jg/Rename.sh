@@ -2,7 +2,7 @@
 set -e
 set -u
 set -o pipefail
-echo "Enter VNHM Number Document"
+echo "Enter Name of text file with VNHM Numbers"
 read file
 while IFS= read -r line
 do
@@ -11,11 +11,13 @@ do
         mkdir ./zips
     else
         echo "zips exists"
+    fi
     if test "!" -d ./unzips
     then
         mkdir ./unzips
     else
         echo "unzips exists"
+    fi    
     if test "!" -d ./ToUpload
     then
 	mkdir ./ToUpload
@@ -59,5 +61,5 @@ do
     rm -r zips/
     rm -r unzips/
     rm -r "${name}"
-done < "$file"
+done < $file
 ls ToUpload/

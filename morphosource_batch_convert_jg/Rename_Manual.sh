@@ -2,16 +2,16 @@
 set -e
 set -u
 set -o pipefail
-echo "Enter Name of text file with VNHM Numbers"
+if test -f filenames.txt
+then
+    rm filenames.txt
+fi
+ls ./zips/ > filenames.txt
+cat filenames.txt
+echo "Enter filenames.txt"
 read file
 while IFS= read -r line
 do
-    if test "!" -d ./zips
-    then 
-        mkdir ./zips
-    else
-        echo "zips exists"
-    fi
     if test "!" -d ./unzips
     then
         mkdir ./unzips
@@ -26,7 +26,7 @@ do
     fi
     echo $line
     #curl http://vnhm.de/_MHH/php/CTStackDownload.php?ID=$line > ./zips/Stack$line.zip
-    unzip -q ./zips/Stack$line.zip -d ./unzips/
+    unzip -q ./zips/$line -d ./unzips/
     if test -f ./unzips/Info.txt
     then
         dos2unix ./unzips/Info.txt
@@ -39,7 +39,7 @@ do
     else
         echo "Info.txt not found"
     fi
-    if [[ $Sorce == "Uwfc" ]]
+    if [[ $Sorce == "UWFC" ]]
     then
         Museum="Uwfc"
         Collection="A"
@@ -51,15 +51,14 @@ do
     name="${Museum}-${Collection}-${Number}_body"
     jpgname="${name}_"
     mv ./unzips/*.log ./ToUpload/"${name}.log"
-    unzip -q ./unzips/Stack.zip -d ./"${name}"
-    for f in "${name}"/*.jpg ; do mv $f ${f//Image/$jpgname} ; done
-    zip -q -r "${name}.zip" "${name}" 
-    mv "${name}.zip" ToUpload/
+    unzip -q ./unzips/Stack.zip -d ./unzips/"${name}"
+    for f in ./unzips/"${name}"/*.jpg ; do mv $f ${f//Image/$jpgname} ; done
+    zip -q -r ./unzips/"${name}.zip" ./unzips/"${name}" 
+    mv ./unzips/"${name}.zip" ToUpload/
     #curl http://vnhm.de/_MHH/php/CTSurfaceDownload.php?ID=$line&Scan=CT&threshold=77 > ./zips/Surface$line.zip
     #unzip -q ./zips/Surface$line.zip -d ./unzips/
     #mv ./unzips/*.stl ./ToUpload/"${name}.stl"
-    rm -r zips/
     rm -r unzips/
-    rm -r "${name}"
+    rm ./zips/$line
 done < $file
 ls ToUpload/

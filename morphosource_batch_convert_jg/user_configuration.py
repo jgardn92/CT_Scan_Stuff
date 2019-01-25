@@ -12,7 +12,7 @@ If you are not going to use a variable, don't leave it blank. Write 'None' inste
 """
 #%% File Paths ################################################################
 #path to folder where all your inputs are stored
-INPUT_PATH = '/media/jenny/3TB_NFTS_ext/morphosource_batch_convert/' 
+INPUT_PATH = '/mnt/hgfs/morphosource_batch_convert_jg' 
 
 #The name of the folder containing files to batch upload.
 UPLOAD_FOLDER = 'ToUpload'
@@ -79,7 +79,7 @@ SEGMENT_BODYPART = 3
 #15: University of California-San Diego Scripps Inst of Oceanography
 #Choose either number corresponding to institute or type 'None'.
 GRANT_SCANNING_INSTITUTION = 0
-GRANT_SPECIMEN_PROVIDER = None
+GRANT_SPECIMEN_PROVIDER = 0
 #%% Media Permissions #########################################################
 #Name of the copyright holder. Also used as the entity granting permission.
 PROVIDER = "University of Washington Fish Collection"

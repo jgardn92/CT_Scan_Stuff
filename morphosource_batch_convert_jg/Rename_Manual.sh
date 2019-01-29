@@ -31,7 +31,7 @@ do
     then
         dos2unix ./unzips/Info.txt
         Sorce=$(awk '/^Sorce: / {print $2}' ./unzips/Info.txt) 
-        CatNum=$(awk '/^SorceID: uw / {print $3}' ./unzips/Info.txt)
+        CatNum=$(awk '/^SorceID:/ {print $3}' ./unzips/Info.txt)
         Source=${Sorce%$'\r'}
         Number=${CatNum%$'\r'}	
         echo $Source

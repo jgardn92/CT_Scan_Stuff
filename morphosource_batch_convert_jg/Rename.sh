@@ -2,6 +2,7 @@
 set -e
 set -u
 set -o pipefail
+echo "Working"
 if test -f filenames.txt
 then
     rm filenames.txt

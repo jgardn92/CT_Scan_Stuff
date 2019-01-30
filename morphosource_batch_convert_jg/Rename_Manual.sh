@@ -17,7 +17,7 @@ do
         mkdir ./unzips
     else
         echo "unzips exists"
-    fi    
+    fi
     if test "!" -d ./ToUpload
     then
 	mkdir ./ToUpload

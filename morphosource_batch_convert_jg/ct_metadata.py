@@ -40,7 +40,7 @@ def read_log(Text2,Filename): #a string object split into list of lines.
         SearchTiming = re.search('^Exposure \(ms\)=[ ]*([0-9\.]*)',Text2[Line])
         if SearchTiming:
             TimingVal = SearchTiming.group(1)   
-        SearchAvg = re.search('^Frame Averaging=ON \((8)\)$',Text2[Line])
+        SearchAvg = re.search('^Frame Averaging=ON \((4)\)$',Text2[Line])
         if SearchAvg:
             Avg = SearchAvg.group(1)
         SearchVoltage = re.search('^Source Voltage \(kV\)=[ ]*([0-9\.]*)',Text2[Line])

@@ -10,7 +10,7 @@ if test -d ./ToUpload
 then
     rm -r ./ToUpload
 fi
-if test -e ./BatchWorksheet.xlxs
+if test -f ./BatchWorksheet.xlsx
 then
-    rm BatchWorksheet.xlxs
+    rm BatchWorksheet.xlsx
 fi

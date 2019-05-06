@@ -41,7 +41,8 @@ def fill_element(Worksheet, ElementText, SideText):
         Worksheet.iloc[3:,49] = SideText #49 Side [of element]
     return Worksheet
 #%% Fill in grant, copyright info
-def fill_permissions(Worksheet, GrantText, Provider, CopyPerm,MediaPol):
+def fill_permissions(Worksheet, Publish, GrantText, Provider, CopyPerm,MediaPol):
+    Worksheet.iloc[3:,47] = Publish #set in user_configuration to get publication status
     Worksheet.iloc[3:,51] = GrantText #51= Funding information
     Worksheet.iloc[3:,52] = f"{Provider} provided access to these data"
     Worksheet.iloc[3:,54] = f", the collection of which was funded by {GrantText}."

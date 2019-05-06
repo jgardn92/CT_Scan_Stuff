@@ -14,3 +14,7 @@ if test -f ./BatchWorksheet.xlsx
 then
     rm BatchWorksheet.xlsx
 fi
+if test -f ./filenames.txt
+then
+    rm ./filenames.txt
+fi

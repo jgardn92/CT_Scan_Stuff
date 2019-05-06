@@ -35,6 +35,7 @@ from numpy import nan
 import user_configuration as uc
 import input_specimens as inspec
 import query_idigbio as qi
+import query_idigbio_uw as qiuw
 import media_policies as mp
 import format_to_write as ftw
 import ct_metadata as ctmd
@@ -185,13 +186,17 @@ if uc.SEGMENT_BODYPART is None:
 #change index back so that there aren't index duplicates downstream
 CTdfReorder.index = SpecimensRaw 
 #%% query idigbio #############################################################
-print('\nStarting iDigBio queries to find occurrence IDs.')
-#PossibleSpecimens = qi.find_options(list(Institutions)[0], list(SpecimenNumbers)[0])
-FullSpecimenNumbers = ['Uw ' + x for x in list(SpecimenNumbers)]
-#PossibleSpecimens = qi.find_options(list(Institutions)[0], ['Uw ' + x for x in list(SpecimenNumbers)[0]])
-PossibleSpecimens = qi.find_options(list(Institutions)[0], list(FullSpecimenNumbers)[0])
-PossibleCollections = qi.collections_options(PossibleSpecimens)
-print('\nHere are possible collection codes based on the first specimen number:')
+if uc.UW_SPECIMEN == True:
+    print('\nStarting iDigBio queries to find occurrence IDs.')
+    FullSpecimenNumbers = ['Uw ' + x for x in list(SpecimenNumbers)]
+    PossibleSpecimens = qiuw.find_options(list(Institutions)[0], list(FullSpecimenNumbers)[0])
+    PossibleCollections = qiuw.collections_options(PossibleSpecimens)
+    print('\nHere are possible collection codes based on the first specimen number:')
+if uc.UW_SPECIMEN == False:
+    print('\nStarting iDigBio queries to find occurrence IDs.')
+    PossibleSpecimens = qi.find_options(list(Institutions)[0], list(SpecimenNumbers)[0])
+    PossibleCollections = qi.collections_options(PossibleSpecimens)
+    print('\nHere are possible collection codes based on the first specimen number:')
 
 #%% guess collection? #########################################################
 #Guess = input("Do you want the program to guess the correct collection based on genus provided? [y/n]")
@@ -204,9 +209,13 @@ print('\nHere are possible collection codes based on the first specimen number:'
 #        PossibleGenera = qi.genera_options(PossibleSpecimens)
 #        CollectionsChoice = qi.guess_collections(PossibleCollections, PossibleGenera, Genus)
 #if Guess == 'n':
-CollectionsChoice = qi.user_choose_collection(PossibleCollections)
+if uc.UW_SPECIMEN == True:
+    CollectionsChoice = qiuw.user_choose_collection(PossibleCollections)
 #for each, pull the Occurrence IDs.
-SpecimenDf = qi.make_occurrence_df(CollectionsChoice, SpecimensSplit, uc.SEGMENT_MUSEUM, uc.SEGMENT_NUMBER)
+    SpecimenDf = qiuw.make_occurrence_df(CollectionsChoice, SpecimensSplit, uc.SEGMENT_MUSEUM, uc.SEGMENT_NUMBER)
+if uc.UW_SPECIMEN == False:
+    CollectionsChoice = qi.user_choose_collection(PossibleCollections)
+    SpecimenDf = qi.make_occurrence_df(CollectionsChoice, SpecimensSplit, uc.SEGMENT_MUSEUM, uc.SEGMENT_NUMBER)
 #SpecimenDf.iloc[:,3]
 #%% check for multiple collections ############################################
 #MultipleCollections = input("Does this batch of specimens sample multiple collections? [y/n]")
@@ -274,7 +283,7 @@ ZipTitle = []
 #make the titles depending on type
 for ending in ZipEnd:
     if ending == '.zip':
-        ZipTitle.append('zipped tiff stack')
+        ZipTitle.append('zipped jpg stack')
     if ending == '.dcm':
         ZipTitle.append('dicom stack')
 ZipFileNames = ['{}{}'.format(a_, b_) for a_, b_ in zip(ZipNames,ZipEnd)]
@@ -391,7 +400,7 @@ Rows = list(range(3,(len(SpecimensRaw)+3))) #which rows need to be filled
 Worksheet = ftw.read_mbs_worksheet(Rows)
 Worksheet = ftw.fill_description(Worksheet, SpecimensRaw)
 Worksheet = ftw.fill_ids(Worksheet,SpecimenDf)
-Worksheet = ftw.fill_permissions(Worksheet,GrantText,uc.PROVIDER,CopyPerm,MediaPol)
+Worksheet = ftw.fill_permissions(Worksheet, uc.PUB_STATUS,GrantText,uc.PROVIDER,CopyPerm,MediaPol)
 Worksheet = ftw.fill_ctmetadata(Worksheet,CTdfReorder)
 if ElementText is not None:
     Worksheet = ftw.fill_element(Worksheet,ElementText,SideText)

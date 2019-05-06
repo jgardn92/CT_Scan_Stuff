@@ -77,19 +77,19 @@ def make_occurrence_df(CollectionsChoice,SpecimensSplit,InstituteCol,CatalogCol)
     OccurrenceIDs = []
     for i in range(len(SpecimensSplit)):
         catalognumber = SpecimensSplit.iloc[i, CatalogCol]
-        #fullcatalognumber = ['Uw ' + catalognumber]
+        fullcatalognumber = ['Uw ' + catalognumber]
         Query = {"institutioncode": SpecimensSplit.iloc[i,InstituteCol],
-                 "catalognumber": catalognumber,
+                 "catalognumber": fullcatalognumber,
                  "collectioncode": CollectionsChoice}
         api = idigbio.json() #shorten
         TempRecords = api.search_records(rq= Query )
         ### ! Future: if this query doesn't return anything, there's something very wrong. Flag.
         OccurrenceIDs.append(TempRecords['items'][0]['indexTerms']['occurrenceid'])
     SpecimenNumbers =  SpecimensSplit.iloc[:,CatalogCol]
-    #FullSpecimenNumbers = ['Uw ' + x for x in list(SpecimenNumbers)]
+    FullSpecimenNumbers = ['Uw ' + x for x in list(SpecimenNumbers)]
     SpecimenDictionary = {'Institution': list(SpecimensSplit.iloc[:,InstituteCol]),
                       'Collection' : Collections,
-                      'CatalogNumber': list(SpecimenNumbers),
+                      'CatalogNumber': list(FullSpecimenNumbers),
                       'OccurrenceID': OccurrenceIDs}
     SpecimenDf = pd.DataFrame.from_dict(SpecimenDictionary)
     return SpecimenDf

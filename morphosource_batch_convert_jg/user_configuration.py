@@ -37,13 +37,15 @@ OTHER_METADATA_FILE = None
    
 #Name of final output spreadsheet file, assuming same location as input
     #note no file ending. Will write to .xlsx
-OUTPUT_FILE = 'BatchWorksheet'
+OUTPUT_FILE = 'BatchWorksheet2'
 #%% Fundamental setup choices #################################################
 #determine oVert now, as will set downstream choices.
 #oVert: Is this upload part of the oVert TCN grant?
 OVERT = True
 #Batch: Are there batch scans in the upload?
 BATCH = False
+#UW_Specimen: Does the specimen come from the UW Fish Collection?
+UW_SPECIMEN = True
 #%% File name parsing #########################################################
 #User needs to set how a file name will be parsed into a specimen
     #In oVert, the recommended file naming convention is:
@@ -107,6 +109,12 @@ COPY_PERMISSION = 2
 #9: Unknown - Will set before project publication
 MEDIA_POLICY = 5
 
+#### Publication Status Options: oVert prefers 2?
+#0: Unpublished
+#1: Published with unrestricted download
+#2: Published with restricted download
+PUB_STATUS = 1
+
 #%% CT metadata ###############################################################
 ##Are the CT metadata still in a series of raw CT output files, 
 #    #or are they already in the input spreadsheet?
@@ -114,7 +122,7 @@ MEDIA_POLICY = 5
 
 #Add additional CT settings that aren't always in raw output files:
 #Write the name of the scanning technician in quotes
-TECHNICIAN = 'Jennifer Gardner'
+TECHNICIAN = 'Mackenzie Gerringer'
 
 #Write what wedge was use in scanning, if any, in quotes.
 WEDGE = None

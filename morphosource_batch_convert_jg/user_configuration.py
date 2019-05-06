@@ -37,7 +37,7 @@ OTHER_METADATA_FILE = None
    
 #Name of final output spreadsheet file, assuming same location as input
     #note no file ending. Will write to .xlsx
-OUTPUT_FILE = 'BatchWorksheet2'
+OUTPUT_FILE = 'BatchWorksheet'
 #%% Fundamental setup choices #################################################
 #determine oVert now, as will set downstream choices.
 #oVert: Is this upload part of the oVert TCN grant?

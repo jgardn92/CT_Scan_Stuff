@@ -26,7 +26,6 @@ do
 	echo "ToUpload exists"
     fi
     echo $line
-    #curl http://vnhm.de/_MHH/php/CTStackDownload.php?ID=$line > ./zips/Stack$line.zip
     unzip -q ./zips/$line -d ./unzips/
     if test -f ./unzips/Info.txt
     then
@@ -54,11 +53,10 @@ do
     mv ./unzips/*.log ./ToUpload/"${name}.log"
     unzip -q ./unzips/Stack.zip -d ./unzips/"${name}"
     for f in ./unzips/"${name}"/*.jpg ; do mv $f ${f//Image/$jpgname} ; done
-    zip -q -r ./unzips/"${name}.zip" ./unzips/"${name}" 
-    mv ./unzips/"${name}.zip" ToUpload/
-    #curl http://vnhm.de/_MHH/php/CTSurfaceDownload.php?ID=$line&Scan=CT&threshold=77 > ./zips/Surface$line.zip
-    #unzip -q ./zips/Surface$line.zip -d ./unzips/
-    #mv ./unzips/*.stl ./ToUpload/"${name}.stl"
+    mv ./unzips/"${name}" .
+    zip -q -r ./"${name}.zip" ./"${name}" 
+    mv ./"${name}.zip" ToUpload/
+    rm -r ./"${name}"
     rm -r unzips/
     rm ./zips/$line
 done < $file

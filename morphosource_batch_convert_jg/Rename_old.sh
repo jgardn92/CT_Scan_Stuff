@@ -54,9 +54,8 @@ do
     mv ./unzips/*.log ./ToUpload/"${name}.log"
     unzip -q ./unzips/Stack.zip -d ./unzips/"${name}"
     for f in ./unzips/"${name}"/*.jpg ; do mv $f ${f//Image/$jpgname} ; done
-    mv ./unzips/"${name}" ./    
-    zip -q -r ./"${name}.zip" ./"${name}" 
-    mv ./"${name}.zip" ToUpload/
+    zip -q -r ./unzips/"${name}.zip" ./unzips/"${name}" 
+    mv ./unzips/"${name}.zip" ToUpload/
     #curl http://vnhm.de/_MHH/php/CTSurfaceDownload.php?ID=$line&Scan=CT&threshold=77 > ./zips/Surface$line.zip
     #unzip -q ./zips/Surface$line.zip -d ./unzips/
     #mv ./unzips/*.stl ./ToUpload/"${name}.stl"
